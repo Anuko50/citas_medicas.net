@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Newtonsoft.Json;
 using citas_medicas.net.DTO;
 using citas_medicas.net.Models;
 using citas_medicas.net.Services;
