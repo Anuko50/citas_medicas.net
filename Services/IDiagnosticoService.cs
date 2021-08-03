@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace citas_medicas.net.Services
 {
-    interface IDiagnosticoService
+    public interface IDiagnosticoService
     {
         public Diagnostico Create(Diagnostico d);
         public Diagnostico FindById(long id);

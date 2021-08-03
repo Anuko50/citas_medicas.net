@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace citas_medicas.net.Services
 {
-    interface IMedicoService
+    public interface IMedicoService
     {
         public Medico Create(Medico m);
         public Medico FindById(long id);

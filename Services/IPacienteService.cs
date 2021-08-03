@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace citas_medicas.net.Services
 {
-    interface IPacienteService
+    public interface IPacienteService
     {
         public Paciente Create(Paciente p);
         public Paciente FindById(long id);

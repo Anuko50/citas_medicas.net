@@ -10,7 +10,7 @@ namespace citas_medicas.net.Services
      * Creo una interfaz con los métodos que voy a aplicar para
      * desligar la implementación, por convenio, y para tratar la inyección de dependencias.
      */
-    interface IUsuarioService
+    public interface IUsuarioService
     {
         //METODOS CRUD: Create; Read; Update; Delete
         //Se updatea en memoria, osea que no es necesario.

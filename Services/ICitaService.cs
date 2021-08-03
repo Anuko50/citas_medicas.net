@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace citas_medicas.net.Services
 {
-    interface ICitaService
+    public interface ICitaService
     {
         public Cita Create(Cita c);
         public Cita FindById(long id);

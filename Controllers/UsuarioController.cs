@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using citas_medicas.net.DTO;
+using citas_medicas.net.Models;
 using citas_medicas.net.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,9 +14,9 @@ namespace citas_medicas.net.Controllers
     [ApiController]
     public class UsuarioController : ControllerBase
     {
-        private IMapper mapper;
-        private IUsuarioService UService;
-
+        public IMapper mapper;
+        public IUsuarioService UService;
+        
         public UsuarioController(IMapper im, IUsuarioService iu)
         {
             mapper = im;
@@ -37,8 +39,11 @@ namespace citas_medicas.net.Controllers
 
         // POST api/<UsuarioController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] UsuarioDTO dto)
         {
+            Usuario u = mapper.Map<Usuario>(dto);
+            //acceder al servicio
+            UService.Create(u);
         }
 
         // PUT api/<UsuarioController>/5
