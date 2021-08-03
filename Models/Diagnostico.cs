@@ -14,6 +14,8 @@ namespace citas_medicas.net.Models
         public long Id { get; set; }
         public string ValoracionEspecialista { get; set; }
         public string Enfermedad { get; set; }
+        //"Foreing Key"; relaciona el diagnostico con el ID único de la Cita a la que está asociado.
         public long IdCita { get; set; }
+        //public Cita cita { get; set; }
     }
 }

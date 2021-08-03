@@ -10,8 +10,8 @@ using citas_medicas.net.Models;
 namespace citas_medicas.net.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20210803060836_initialCreate")]
-    partial class initialCreate
+    [Migration("20210803065909_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
