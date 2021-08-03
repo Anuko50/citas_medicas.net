@@ -14,7 +14,7 @@ namespace citas_medicas.net.DTO
         public long Id { get; set; }
         public string Nombre { get; set; }
         public string Apellidos { get; set; }
-        public string Usuario { get; set; }
+        public string User { get; set; }
         public string Clave { get; set; }
         public string Nss { get; set; }
         public string NumTarjeta { get; set; }
