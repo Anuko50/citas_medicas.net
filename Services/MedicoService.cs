@@ -43,6 +43,7 @@ namespace citas_medicas.net.Services
                 if (!m.Pacientes.Contains(p))
                     m.Pacientes.Add(p);
 
+                context.SaveChanges();
                 return true;
             }
 

@@ -46,5 +46,14 @@ namespace citas_medicas.net.Services
 
         //Hago una función Lambda; cojo todos los usuarios que haya en el contexto de los datos.
         public ICollection<Usuario> FindAll() => context.Usuario.ToList();
+
+        public void Update(long id, Usuario u)
+        {
+            //no modifica ni el id ni el nombre de usuario (user)
+            u.Id = id;
+            context.Usuario.Update(u);
+            context.SaveChanges();
+        }
+
     }
 }

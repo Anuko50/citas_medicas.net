@@ -21,5 +21,7 @@ namespace citas_medicas.net.Services
         public ICollection<Usuario> FindAll();
         //Delete:
         public bool DeleteById(long id);
+        //Update:
+        public void Update(long id, Usuario u);
     }
 }

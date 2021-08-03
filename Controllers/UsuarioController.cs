@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Newtonsoft.Json;
 using citas_medicas.net.DTO;
 using citas_medicas.net.Models;
 using citas_medicas.net.Services;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace citas_medicas.net.Controllers
 {
@@ -23,18 +25,23 @@ namespace citas_medicas.net.Controllers
             UService = iu;
         }
 
-        // GET: api/<UsuarioController>
+        // GET ALL: api/<UsuarioController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ICollection<Usuario> Get()
         {
-            return new string[] { "value1", "value2" };
+            return UService.FindAll();
         }
 
         // GET api/<UsuarioController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Usuario Get(long id)
         {
-            return "value";
+            Usuario u = UService.FindById(id);
+            if (u is not null)
+            {
+                return u;
+            }
+            return null;
         }
 
         // POST api/<UsuarioController>
@@ -48,14 +55,20 @@ namespace citas_medicas.net.Controllers
 
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(long id, [FromBody] UsuarioDTO dto)
         {
+            Usuario u = mapper.Map<Usuario>(dto);
+            UService.Update(id, u);
         }
 
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(long id)
         {
+            bool borrao = UService.DeleteById(id);
+            if (borrao)
+                return "El usuario ha sido eliminado con exito";
+            return "oh no; el usuario que has intentado borrar no existía :/"; 
         }
     }
 }
