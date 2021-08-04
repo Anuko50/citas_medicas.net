@@ -49,10 +49,10 @@ namespace citas_medicas.net.Controllers
 
         // POST api/<CitaController>
         [HttpPost]
-        public void Post(CitaDTO dto)
+        public void Post(CitaDTO dto, long idMedico, long idPaciente)
         {
             Cita c = mapper.Map<Cita>(dto);
-            CService.Create(c);
+            CService.Create(c, idMedico, idPaciente);
         }
 
         // PUT api/<CitaController>/5
@@ -67,8 +67,12 @@ namespace citas_medicas.net.Controllers
 
         // DELETE api/<CitaController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
+            if (CService.DeleteById(id))
+                return "se ha eliminado la cita correctamente";
+            return "no se ha podido eliminar";
+
         }
     }
 }

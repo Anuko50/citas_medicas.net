@@ -16,9 +16,14 @@ namespace citas_medicas.net.Services
         }
 
 
-        public Cita Create(Cita c)
+        /*
+         * ARREGLAR
+         */
+        public Cita Create(Cita c, long idMedico, long idPaciente)
         {
             if (c is not null) {
+                c.Medico = context.Medico.Find(idMedico);
+                c.Paciente = context.Paciente.Find(idPaciente);
                 context.Cita.Add(c);
                 context.SaveChanges();
                 return c;
@@ -62,5 +67,6 @@ namespace citas_medicas.net.Services
             }
             return false;
         }
+
     }
 }
