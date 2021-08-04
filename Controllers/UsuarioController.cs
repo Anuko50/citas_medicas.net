@@ -17,15 +17,15 @@ namespace citas_medicas.net.Controllers
     {
         public IMapper mapper;
         public IUsuarioService UService;
-        
+
         public UsuarioController(IMapper im, IUsuarioService iu)
         {
             mapper = im;
             UService = iu;
         }
 
+
         // GET ALL: api/<UsuarioController>
-        //funciona con swagger
         [HttpGet]
         public ICollection<UsuarioDTO> Get()
         {
@@ -37,6 +37,7 @@ namespace citas_medicas.net.Controllers
             }
             return users;
         }
+
 
         // GET api/<UsuarioController>/5
         [HttpGet("{id}")]
@@ -51,10 +52,12 @@ namespace citas_medicas.net.Controllers
             return null;
         }
 
+
         /*
          * PARA LA VERSION FINAL: creo que esto no debería existir. En plan deberían crearse 
          * pacientes o medicos, no usuarios sin fuste. Creo que esto debería ser una clase abstracta.
          */
+
         // POST api/<UsuarioController>
         [HttpPost]
         public void Post([FromBody] UsuarioDTO dto)
@@ -66,14 +69,17 @@ namespace citas_medicas.net.Controllers
 
         [Route("login")]
         [HttpPost]
-        public UsuarioDTO Login([FromBody] string user, string clave) {
+        public UsuarioDTO Login([FromBody] string user, string clave)
+        {
             Usuario u = UService.login(user, clave);
-            if (u is not null) {
+            if (u is not null)
+            {
                 UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
                 return dto;
             }
             return null;
         }
+
 
         // PUT api/<UsuarioController>/5
         [HttpPut("{id}")]
@@ -83,6 +89,7 @@ namespace citas_medicas.net.Controllers
             UService.Update(id, u);
         }
 
+
         // DELETE api/<UsuarioController>/5
         [HttpDelete("{id}")]
         public string Delete(long id)
@@ -90,9 +97,9 @@ namespace citas_medicas.net.Controllers
             bool borrao = UService.DeleteById(id);
             if (borrao)
                 return "El usuario ha sido eliminado con exito";
-            return "oh no; el usuario que has intentado borrar no existía :/"; 
+            return "oh no; el usuario que has intentado borrar no existía :/";
         }
 
-        
+
     }
 }

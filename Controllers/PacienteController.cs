@@ -26,7 +26,6 @@ namespace citas_medicas.net.Controllers
             MService = ime;
         }
 
-        [Route("GetAll")]
         // GET: ALL api/<PacienteController>
         [HttpGet]
         public ICollection<PacienteDTO> Get()
