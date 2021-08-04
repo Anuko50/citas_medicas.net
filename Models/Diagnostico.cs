@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace citas_medicas.net.Models
 {
     [Table("Diagnostico")]
-    public class Diagnostico
+    public class Diagnostico 
     {
         [Key]
         public long Id { get; set; }

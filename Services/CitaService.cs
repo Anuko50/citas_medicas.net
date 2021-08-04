@@ -1,4 +1,5 @@
 ﻿using citas_medicas.net.Models;
+using citas_medicas.net.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

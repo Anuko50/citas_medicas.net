@@ -1,4 +1,5 @@
 ﻿using citas_medicas.net.Models;
+using citas_medicas.net.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,13 @@ namespace citas_medicas.net.Services
     public class UsuarioService : IUsuarioService
     {
         private Context context;
+        //private IRepositorio<Usuario> repo;
 
         //constructor; necesito el contexto de los datos.
-        public UsuarioService(Context c)
+        public UsuarioService(Context c) //, RepositorioUsuario<Usuario> ru)
         {
             context = c;
+            //repo = ru;
         }
 
         //función lambda; cojo a los usuarios directamente buscándolos  por su ID único.
@@ -24,6 +27,7 @@ namespace citas_medicas.net.Services
         public Usuario Create(Usuario u)
         {
             if (u is not null) {
+                //repo.Agregar(u);
                 context.Usuario.Add(u);
                 context.SaveChanges();
                 return u;

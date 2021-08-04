@@ -1,5 +1,6 @@
 using AutoMapper;
 using citas_medicas.net.Models;
+using citas_medicas.net.Repository;
 using citas_medicas.net.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,13 +50,15 @@ namespace citas_medicas.net
 
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper); //el mapper me interesa Singleton
+
+            //services.AddSingleton<IRepositorio<Usuario>, RepositorioUsuario<Usuario>>();
             //Los servicios me interesa Scope; cada transacción se crea un nuevo scope.
             services.AddScoped<IUsuarioService, UsuarioService>();
             services.AddScoped<IMedicoService, MedicoService>();
             services.AddScoped<IPacienteService, PacienteService>();
             services.AddScoped<ICitaService, CitaService>();
             services.AddScoped<IDiagnosticoService, DiagnosticoService>();
-            
+
             //TODO: ¿Me haces falta o solo me siento sola?
             services.AddMvc();
         }
