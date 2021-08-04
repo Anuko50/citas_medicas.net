@@ -24,11 +24,19 @@ namespace citas_medicas.net.Controllers
             UService = iu;
         }
 
+        [Route("GetAll")]
         // GET ALL: api/<UsuarioController>
+        //funciona con swagger
         [HttpGet]
-        public ICollection<Usuario> Get()
+        public ICollection<UsuarioDTO> Get()
         {
-            return UService.FindAll();
+            ICollection<UsuarioDTO> users = new List<UsuarioDTO>();
+            foreach (Usuario u in UService.FindAll())
+            {
+                UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
+                users.Add(dto);
+            }
+            return users;
         }
 
         // GET api/<UsuarioController>/5
@@ -44,6 +52,10 @@ namespace citas_medicas.net.Controllers
             return null;
         }
 
+        /*
+         * PARA LA VERSION FINAL: creo que esto no debería existir. En plan deberían crearse 
+         * pacientes o medicos, no usuarios sin fuste. Creo que esto debería ser una clase abstracta.
+         */
         // POST api/<UsuarioController>
         [HttpPost]
         public void Post([FromBody] UsuarioDTO dto)
