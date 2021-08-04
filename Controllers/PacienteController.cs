@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using citas_medicas.net.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace citas_medicas.net.Controllers
 {
@@ -12,7 +13,17 @@ namespace citas_medicas.net.Controllers
     [ApiController]
     public class PacienteController : ControllerBase
     {
-        // GET: api/<PacienteController>
+        public IMapper mapper;
+        public IPacienteService PService;
+
+        public PacienteController(IMapper im, IPacienteService ip)
+        {
+            mapper = im;
+            PService = ip;
+        }
+
+        [Route("GetAll")]
+        // GET: ALL api/<PacienteController>
         [HttpGet]
         public IEnumerable<string> Get()
         {

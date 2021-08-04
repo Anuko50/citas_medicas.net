@@ -24,11 +24,17 @@ namespace citas_medicas.net.Controllers
             UService = iu;
         }
 
+        [Route("GetAll")]
         // GET ALL: api/<UsuarioController>
         [HttpGet]
-        public ICollection<Usuario> Get()
+        public ICollection<UsuarioDTO> Get()
         {
-            return UService.FindAll();
+            ICollection<UsuarioDTO> users = new List<UsuarioDTO>();
+            foreach (Usuario u in UService.FindAll()) {
+                UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
+                users.Add(dto);
+            }
+            return users;
         }
 
         // GET api/<UsuarioController>/5
