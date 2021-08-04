@@ -24,19 +24,14 @@ namespace citas_medicas.net.Controllers
             UService = iu;
         }
 
-        [Route("GetAll")]
         // GET ALL: api/<UsuarioController>
         //funciona con swagger
         [HttpGet]
         public ICollection<UsuarioDTO> Get()
         {
             ICollection<UsuarioDTO> users = new List<UsuarioDTO>();
-<<<<<<< HEAD
             foreach (Usuario u in UService.FindAll())
             {
-=======
-            foreach (Usuario u in UService.FindAll()) {
->>>>>>> aaef56da4a0c5ac699f0c8c2ec2aca282029f862
                 UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
                 users.Add(dto);
             }
