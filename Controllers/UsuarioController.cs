@@ -33,12 +33,13 @@ namespace citas_medicas.net.Controllers
 
         // GET api/<UsuarioController>/5
         [HttpGet("{id}")]
-        public Usuario Get(long id)
+        public UsuarioDTO Get(long id)
         {
             Usuario u = UService.FindById(id);
             if (u is not null)
             {
-                return u;
+                UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
+                return dto;
             }
             return null;
         }
@@ -50,6 +51,17 @@ namespace citas_medicas.net.Controllers
             Usuario u = mapper.Map<Usuario>(dto);
             //acceder al servicio
             UService.Create(u);
+        }
+
+        [Route("login")]
+        [HttpPost]
+        public UsuarioDTO Login([FromBody] string user, string clave) {
+            Usuario u = UService.login(user, clave);
+            if (u is not null) {
+                UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
+                return dto;
+            }
+            return null;
         }
 
         // PUT api/<UsuarioController>/5
@@ -69,5 +81,7 @@ namespace citas_medicas.net.Controllers
                 return "El usuario ha sido eliminado con exito";
             return "oh no; el usuario que has intentado borrar no existía :/"; 
         }
+
+        
     }
 }

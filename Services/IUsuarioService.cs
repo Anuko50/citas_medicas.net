@@ -23,5 +23,8 @@ namespace citas_medicas.net.Services
         public bool DeleteById(long id);
         //Update:
         public void Update(long id, Usuario u);
+        //TODO: ver si hacer solo en usuario o hacer en paciente y medico.
+        //Por ahora veo más cómodo hacerlo solo en usuario.
+        public Usuario login(string username, string clave);
     }
 }
