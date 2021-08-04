@@ -13,7 +13,7 @@ namespace citas_medicas.net.Services
         public ICollection<Diagnostico> FindAll();
         public bool DeleteById(long id);
         /* no le añado una cita por logica secuencial:
-         * voy al medico y primero pido una cita. Despues de esta cita? se crea un diagnostico.
-         * */
+* voy al medico y primero pido una cita. Despues de esta cita? se crea un diagnostico.
+* */
     }
 }

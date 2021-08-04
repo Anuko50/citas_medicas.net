@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using citas_medicas.net.DTO;
+using citas_medicas.net.Models;
+using citas_medicas.net.Services;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,36 +15,64 @@ namespace citas_medicas.net.Controllers
     [ApiController]
     public class DiagnosticoController : ControllerBase
     {
+        public IMapper mapper;
+        public IDiagnosticoService DService;
+
+        public DiagnosticoController(IMapper im, IDiagnosticoService id)
+        {
+            mapper = im;
+            DService = id;
+        }
+
         // GET: api/<DiagnosticoController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<DiagnosticoDTO> Get()
         {
-            return new string[] { "value1", "value2" };
+            ICollection<DiagnosticoDTO> diagnosticos = new List<DiagnosticoDTO>();
+            foreach (Diagnostico d in DService.FindAll())
+            {
+                DiagnosticoDTO dto = mapper.Map<DiagnosticoDTO>(d);
+                diagnosticos.Add(dto);
+            }
+            return diagnosticos;
         }
 
         // GET api/<DiagnosticoController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public DiagnosticoDTO Get(long id)
         {
-            return "value";
+            Diagnostico d = DService.FindById(id);
+            if (d is not null)
+            {
+                DiagnosticoDTO dto = mapper.Map<DiagnosticoDTO>(d);
+                return dto;
+            }
+            return null;
         }
 
         // POST api/<DiagnosticoController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] DiagnosticoDTO dto)
         {
+            Diagnostico d = mapper.Map<Diagnostico>(dto);
+            DService.Create(d);
         }
 
+        /*
         // PUT api/<DiagnosticoController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
+        */
 
         // DELETE api/<DiagnosticoController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public string Delete(int id)
         {
+            if (DService.DeleteById(id))
+                return "Se ha eliminado correctamente";
+            return "No se ha podido eliminar, lo más seguro es que no exista.";
         }
     }
 }
