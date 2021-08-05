@@ -14,7 +14,6 @@ namespace citas_medicas.net.Repository
         public bool Eliminar(long id);
         public void Actualizar(T entidad);
         public T ObtenerPorId(long id);
-        public IEnumerable<T> ObtenerAll();
 
     }
 }

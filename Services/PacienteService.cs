@@ -36,51 +36,37 @@ namespace citas_medicas.net.Services
         //TODO:
         public string AddMedico(long id, long idMedico)
         {
-            Paciente p = FindById(id);
             Medico m = repoMedico.ObtenerPorId(idMedico);
-            int cont = 0;
+            Paciente p = FindById(id);
 
             if ((m is not null) && (p is not null))
             {
-                if (!p.Medicos.Contains(m)) {
+                if ((!p.Medicos.Contains(m)) && (!m.Pacientes.Contains(p)))
+                {
                     p.Medicos.Add(m);
-                    repo.Actualizar(p);
-                    cont += 2;
-                }
-
-                if (p.Medicos.Contains(m))
-                    return "El medico ya esta en la lista de medicos del paciente";
-
-                if (!m.Pacientes.Contains(p)) {
                     m.Pacientes.Add(p);
+                    repo.Actualizar(p);
                     repoMedico.Actualizar(m);
-                    cont += 1;
+
+                    return "se ha añadido el medico correctamente.";
                 }
 
-                if (m.Pacientes.Contains(p))
-                    return "El paciente ya está en la lista de pacientes del medico.";
-
-                if (cont == 1)
-                {
-                    return "Solo se ha añadido el medico al paciente.";
-                }
-                else if (cont == 2) 
-                {
-                    return "Solo se ha añadido el paciente al medico";
-                }else if (cont == 3)
-                {
-                    return "Se ha añadido correctamente.";
-                }
-                //context.SaveChanges();
-                return "Ya se tienen contenidos ambos.";
+                return "este medico o este paciente ya se tienen añadidos el uno al otro en su lista";
             }
-            return "O el medico o el paciente no existe.";
+
+            if ((m is null) && (p is null))
+                return "ni el paciente ni el medico existen.";
+            if (m is null)
+                return "el medico no existe";
+            if (p is null)
+                return "el paciente no existe";
+            return "no entiendo nada";
         }
 
         public bool DeleteById(long id) => repo.Eliminar(id);
       
 
-        public IEnumerable<Paciente> FindAll() => repo.ObtenerAll();
+        public IEnumerable<Paciente> FindAll() => context.Paciente.Include(p => p.Medicos).ToList();
 
         //TODO:
         public bool Login(string user, string clave) {

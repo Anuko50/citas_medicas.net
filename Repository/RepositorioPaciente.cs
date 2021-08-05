@@ -40,11 +40,6 @@ namespace citas_medicas.net.Repository
 
         }
 
-        public IEnumerable<T> ObtenerAll()
-        {
-            return context.Set<T>().ToList();
-        }
-
         public T ObtenerPorId(long id) => context.Set<T>().FirstOrDefault(x => x.Id == id);
     }
 }

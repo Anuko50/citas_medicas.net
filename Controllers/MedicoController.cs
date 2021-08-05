@@ -64,11 +64,7 @@ namespace citas_medicas.net.Controllers
 
         // PUT api/<PacienteController>/5
         [HttpPut("{id}")]
-        public string Put(long id,  long idPaciente)
-        {
-            return MService.AddPaciente(id, idPaciente);
-        }
-
+        public string Put(long id,  long idPaciente) => MService.AddPaciente(id, idPaciente);
 
         // DELETE api/<MedicoController>/5
         [HttpDelete("{id}")]

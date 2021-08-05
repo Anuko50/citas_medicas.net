@@ -39,7 +39,7 @@ namespace citas_medicas.net.Services
         
 
         //Hago una función Lambda; cojo todos los usuarios que haya en el contexto de los datos.
-        public IEnumerable<Usuario> FindAll() => repo.ObtenerAll();
+        public IEnumerable<Usuario> FindAll() => context.Usuario.ToList();
 
         public void Update( Usuario u)
         {

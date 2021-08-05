@@ -1,4 +1,5 @@
 ﻿using citas_medicas.net.Models;
+using citas_medicas.net.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,15 @@ namespace citas_medicas.net.Services
     {
 
         private Context context;
+        private IRepositorio<Medico> repo;
+        private IRepositorio<Paciente> repoPaciente;
 
         public MedicoService(Context c) 
         {
             context = c;
+            repo = new RepositorioMedico<Medico>(context);
+            repoPaciente = new RepositorioPaciente<Paciente>(context);
+
         }
 
 
@@ -34,19 +40,22 @@ namespace citas_medicas.net.Services
         public string AddPaciente(long id, long idPaciente)
         {
             Medico m = FindById(id);
-            Paciente p = context.Paciente.Find(idPaciente);
+            Paciente p = repoPaciente.ObtenerPorId(idPaciente);
 
             if ((m is not null) && (p is not null)) {
                 if ((!p.Medicos.Contains(m)) && (!m.Pacientes.Contains(p))) {
                     p.Medicos.Add(m);
+                    repoPaciente.Actualizar(p);
                     m.Pacientes.Add(p);
-                    context.SaveChanges();
+                    repo.Actualizar(m);
+
                     return "se ha añadido el paciente correctamente.";
                 }
 
                 return "este medico o este paciente ya se tienen añadidos el uno al otro en su lista";
             }
 
+            #region comprobaciones
             if ((m is null) && (p is null))
                 return "ni el paciente ni el medico existen.";
             if (m is null)
@@ -54,6 +63,7 @@ namespace citas_medicas.net.Services
             if (p is null)
                 return "el paciente no existe";
             return "no entiendo nada";
+            #endregion
 
         }
 
