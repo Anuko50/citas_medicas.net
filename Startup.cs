@@ -59,7 +59,13 @@ namespace citas_medicas.net
             services.AddScoped<ICitaService, CitaService>();
             services.AddScoped<IDiagnosticoService, DiagnosticoService>();
 
-            //TODO: ¿Me haces falta o solo me siento sola?
+            //inicio los servicios de repositorio
+            services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioCita<>));
+            services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioDiagnostico<>));
+            services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioMedico<>));
+            services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioPaciente<>));
+            services.AddScoped(typeof(IRepositorio<>), typeof(RepositorioUsuario<>));
+
             services.AddMvc();
         }
 

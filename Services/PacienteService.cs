@@ -1,4 +1,5 @@
 ﻿using citas_medicas.net.Models;
+using citas_medicas.net.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,56 +11,78 @@ namespace citas_medicas.net.Services
     public class PacienteService : IPacienteService
     {
         private Context context;
+        private IRepositorio<Paciente> repo;
+        private IRepositorio<Medico> repoMedico;
+
         public PacienteService(Context c)
         {
             context = c;
+            repo = new RepositorioPaciente<Paciente>(context);
+            repoMedico = new RepositorioMedico<Medico>(context);
         }
 
         public Paciente Create(Paciente p)
         {
             if (p is not null) {
-                context.Paciente.Add(p);
-                context.SaveChanges();
+                repo.Agregar(p);
                 return p;
             }
             return null;
         }
 
-        public Paciente FindById(long id) => context.Paciente.Find(id);
+        public Paciente FindById(long id) => repo.ObtenerPorId(id);//context.Paciente.Find(id);
 
-        public bool AddMedico(long id, long idMedico)
+
+        //TODO:
+        public string AddMedico(long id, long idMedico)
         {
             Paciente p = FindById(id);
-            Medico m = context.Medico.Find(idMedico);
+            Medico m = repoMedico.ObtenerPorId(idMedico);
+            int cont = 0;
 
             if ((m is not null) && (p is not null))
             {
-                if (!p.Medicos.Contains(m))
+                if (!p.Medicos.Contains(m)) {
                     p.Medicos.Add(m);
+                    repo.Actualizar(p);
+                    cont += 2;
+                }
 
-                if (!m.Pacientes.Contains(p))
+                if (p.Medicos.Contains(m))
+                    return "El medico ya esta en la lista de medicos del paciente";
+
+                if (!m.Pacientes.Contains(p)) {
                     m.Pacientes.Add(p);
+                    repoMedico.Actualizar(m);
+                    cont += 1;
+                }
 
-                context.SaveChanges();
-                return true;
+                if (m.Pacientes.Contains(p))
+                    return "El paciente ya está en la lista de pacientes del medico.";
+
+                if (cont == 1)
+                {
+                    return "Solo se ha añadido el medico al paciente.";
+                }
+                else if (cont == 2) 
+                {
+                    return "Solo se ha añadido el paciente al medico";
+                }else if (cont == 3)
+                {
+                    return "Se ha añadido correctamente.";
+                }
+                //context.SaveChanges();
+                return "Ya se tienen contenidos ambos.";
             }
-            return false;
+            return "O el medico o el paciente no existe.";
         }
 
-        public bool DeleteById(long id)
-        {
-            Paciente p = FindById(id);
-            if (p is not null) {
-                context.Paciente.Remove(p);
-                context.SaveChanges();
-                return true;
-            }
-            return false;
-        }
+        public bool DeleteById(long id) => repo.Eliminar(id);
+      
 
-        public ICollection<Paciente> FindAll() => context.Paciente.Include(p => p.Medicos).ToList();
+        public IEnumerable<Paciente> FindAll() => repo.ObtenerAll();
 
-
+        //TODO:
         public bool Login(string user, string clave) {
             Paciente p = context.Paciente.Where(p => p.User == user && p.Clave == clave).First();
             if (p is not null)

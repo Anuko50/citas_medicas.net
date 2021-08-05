@@ -86,7 +86,7 @@ namespace citas_medicas.net.Controllers
         public void Put(long id, [FromBody] UsuarioDTO dto)
         {
             Usuario u = mapper.Map<Usuario>(dto);
-            UService.Update(id, u);
+            UService.Update(u);
         }
 
 

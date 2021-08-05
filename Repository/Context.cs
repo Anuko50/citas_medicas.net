@@ -28,8 +28,5 @@ namespace citas_medicas.net.Models
                 .HasAlternateKey(u => u.User)
                 .HasName("User");
         }
-
-
-        public DbSet<citas_medicas.net.DTO.CitaDTO> CitaDTO { get; set; }
     }
 }

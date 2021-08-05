@@ -62,12 +62,8 @@ namespace citas_medicas.net.Controllers
 
         // PUT api/<PacienteController>/5
         [HttpPut("{id}")]
-        public string Put(long id, [FromBody] long idMedico)
-        {
-            if (PService.AddMedico(id, idMedico))
-                return "El medico ha sido añadido.";
-            return "Ha ocurrido un error al añadir al médico.";
-        }
+        public string Put(long id, long idMedico) => PService.AddMedico(id, idMedico);
+        
 
         // DELETE api/<PacienteController>/5
         [HttpDelete("{id}")]

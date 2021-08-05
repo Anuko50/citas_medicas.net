@@ -11,9 +11,9 @@ namespace citas_medicas.net.Repository
          * Funciones CRUD que van a compartir el que use esta interfaz.
          */
         public void Agregar(T entidad);
-        public void Eliminar(int id);
+        public bool Eliminar(long id);
         public void Actualizar(T entidad);
-        public T ObtenerPorId(int id);
+        public T ObtenerPorId(long id);
         public IEnumerable<T> ObtenerAll();
 
     }

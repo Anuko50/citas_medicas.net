@@ -18,7 +18,6 @@ namespace citas_medicas.net.Repository
         public void Actualizar(T e)
         {
             context.Set<T>().Update(e);
-            //Es que literal que solo salvo los cambios xd
             context.SaveChanges();
         }
 
@@ -28,11 +27,17 @@ namespace citas_medicas.net.Repository
             context.SaveChanges();
         }
 
-        public void Eliminar(int id)
+        public bool Eliminar(long id)
         {
             T e = ObtenerPorId(id);
-            context.Set<T>().Remove(e);
-            context.SaveChanges();
+            if (e is not null)
+            {
+                context.Set<T>().Remove(e);
+                context.SaveChanges();
+                return true;
+            }
+            return false;
+
         }
 
         public IEnumerable<T> ObtenerAll()
@@ -40,6 +45,6 @@ namespace citas_medicas.net.Repository
             return context.Set<T>().ToList();
         }
 
-        public T ObtenerPorId(int id) => context.Set<T>().FirstOrDefault(x => x.Id == id);
+        public T ObtenerPorId(long id) => context.Set<T>().FirstOrDefault(x => x.Id == id);
     }
 }
