@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using citas_medicas.net.DTO;
+using citas_medicas.net.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace citas_medicas.net.Models
 
         public Mappeando()
         {
+
             //mappeo del derecho:
 
             //primero los directos:
