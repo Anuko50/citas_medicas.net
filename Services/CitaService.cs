@@ -11,47 +11,42 @@ namespace citas_medicas.net.Services
     public class CitaService:ICitaService
     {
         private Context context;
+        private IRepositorio<Cita> repo;
 
         public CitaService(Context c) {
             context = c;
+            repo = new RepositorioCita<Cita>(context);
         }
 
 
-        /*
-         * ARREGLAR
-         */
         public Cita Create(Cita c, long idMedico, long idPaciente)
         {
+            IRepositorio<Medico> repoMedico = new RepositorioMedico<Medico>(context);
+            IRepositorio<Paciente> repoPaciente = new RepositorioPaciente<Paciente>(context);
+
             if (c is not null) {
-                c.Medico = context.Medico.Find(idMedico);
-                c.Paciente = context.Paciente.Find(idPaciente);
-                context.Cita.Add(c);
-                context.SaveChanges();
+                c.Medico = repoMedico.ObtenerPorId(idMedico);
+                c.Paciente = repoPaciente.ObtenerPorId(idPaciente);
+                repo.Agregar(c);
                 return c;
             }
             return null;
         }
 
-        public Cita FindById(long id) => context.Cita.Find(id);
+        public Cita FindById(long id) => repo.ObtenerPorId(id);
 
-        public bool DeleteById(long id)
-        {
-            Cita c = FindById(id);
-            if (c is not null) {
-                context.Cita.Remove(c);
-                context.SaveChanges();
-                return true;
-            }
-            return false;
-        }
+        public bool DeleteById(long id) => repo.Eliminar(id);
 
         public ICollection<Cita> FindAll() => context.Cita.Include(c => c.Medico).Include(c => c.Paciente).Include(c => c.Diagnostico).ToList();
 
 
         public bool AddDiagnostico(long id, long idDiagnostico)
         {
-            Diagnostico d = context.Diagnostico.Find(idDiagnostico);
+            IRepositorio<Diagnostico> repoDiagnostico = new RepositorioDiagnostico<Diagnostico>(context);
+
+            Diagnostico d = repoDiagnostico.ObtenerPorId(idDiagnostico);
             Cita c = FindById(id);
+
             if ((d is not null) && (c is not null)) { 
                 if(c.Diagnostico != null){
                     //la cita ya tiene un diagnostico asociado.
@@ -63,7 +58,8 @@ namespace citas_medicas.net.Services
                 }
                 d.IdCita = c.Id;
                 c.Diagnostico = d;
-                context.SaveChanges();
+                repo.Actualizar(c);
+                repoDiagnostico.Actualizar(d);
                 return true;
             }
             return false;

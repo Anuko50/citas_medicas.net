@@ -44,12 +44,6 @@ namespace citas_medicas.net.Services
         public void Update( Usuario u)
         {
             repo.Actualizar( u);
-            //no modifica ni el id ni el nombre de usuario (user)
-            /*
-            u.Id = id;
-            context.Usuario.Update(u);
-            context.SaveChanges();
-            */
         }
 
         //solo comprobar si existe.

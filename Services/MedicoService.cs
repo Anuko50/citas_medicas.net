@@ -27,14 +27,13 @@ namespace citas_medicas.net.Services
         public Medico Create(Medico m)
         {
             if (m is not null) {
-                context.Medico.Add(m);
-                context.SaveChanges();
+                repo.Agregar(m);
                 return m;
             }
             return null;
         }
 
-        public Medico FindById(long id) => context.Medico.Find(id);
+        public Medico FindById(long id) => repo.ObtenerPorId(id);
 
 
         public string AddPaciente(long id, long idPaciente)
@@ -68,20 +67,13 @@ namespace citas_medicas.net.Services
         }
 
 
-        public bool DeleteById(long id)
-        {
-            Medico m = FindById(id);
-            if (m is not null) {
-                context.Medico.Remove(m);
-                context.SaveChanges();
-                return true;
-            }
-            return false;
-        }
+        public bool DeleteById(long id) => repo.Eliminar(id);
+        
 
         public ICollection<Medico> FindAll() => context.Medico.Include(m => m.Pacientes).ToList();
 
 
+        //TODO:
         public bool Login(string user, string clave)
         {
             Medico m = context.Medico.Where(m => m.User == user && m.Clave == clave).First();
