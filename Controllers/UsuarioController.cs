@@ -53,31 +53,30 @@ namespace citas_medicas.net.Controllers
         }
 
 
-        /*
-         * PARA LA VERSION FINAL: creo que esto no debería existir. En plan deberían crearse 
-         * pacientes o medicos, no usuarios sin fuste. Creo que esto debería ser una clase abstracta.
-         */
 
         // POST api/<UsuarioController>
         [HttpPost]
         public void Post([FromBody] UsuarioDTO dto)
         {
-            Usuario u = mapper.Map<Usuario>(dto);
+            //Usuario u = mapper.Map<Usuario>(dto);
             //acceder al servicio
-            UService.Create(u);
+            //UService.Create(u);
         }
 
         [Route("login")]
         [HttpPost]
-        public UsuarioDTO Login([FromBody] string user, string clave)
+        public string Login( string user, string clave)
         {
             Usuario u = UService.login(user, clave);
             if (u is not null)
             {
-                UsuarioDTO dto = mapper.Map<UsuarioDTO>(u);
-                return dto;
+                if (u.GetType() == typeof(Paciente))
+                    return u.Id.ToString()+" Paciente";
+               
+               return u.Id.ToString()+" Medico";
+                
             }
-            return null;
+            return "La clave o el usuario son incorrectos.";
         }
 
 

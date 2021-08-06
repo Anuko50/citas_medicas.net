@@ -33,7 +33,8 @@ namespace citas_medicas.net.Services
             return null;
         }
 
-        public Cita FindById(long id) => repo.ObtenerPorId(id);
+        public Cita FindById(long id) => context.Cita.Include(c => c.Medico).Include(c => c.Paciente).Include(c => c.Diagnostico).FirstOrDefault(c => c.Id == id);
+            //repo.ObtenerPorId(id);
 
         public bool DeleteById(long id) => repo.Eliminar(id);
 

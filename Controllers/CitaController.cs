@@ -40,11 +40,11 @@ namespace citas_medicas.net.Controllers
 
         // GET api/<CitaController>/5
         [HttpGet("{id}")]
-        public Cita Get(int id)
+        public CitaDTO Get(int id)
         {
             Cita c = CService.FindById(id);
             CitaDTO dto = mapper.Map<CitaDTO>(c);
-            return c;
+            return dto;
         }
 
         // POST api/<CitaController>

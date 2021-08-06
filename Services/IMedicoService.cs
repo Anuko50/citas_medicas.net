@@ -13,6 +13,6 @@ namespace citas_medicas.net.Services
         public ICollection<Medico> FindAll();
         public bool DeleteById(long id);
         public string AddPaciente(long id, long idPaciente);
-        public bool Login(string user, string clave);
+        //public bool Login(string user, string clave);
     }
 }

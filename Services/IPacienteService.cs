@@ -18,6 +18,6 @@ namespace citas_medicas.net.Services
          * Y tanto el medico como el paciente van a tener que poder loggearse en la pag
          */
         public string AddMedico(long id, long idMedico);
-        public bool Login(string user, string clave);
+        //public bool Login(string user, string clave);
     }
 }

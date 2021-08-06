@@ -49,7 +49,7 @@ namespace citas_medicas.net.Services
         //solo comprobar si existe.
         public Usuario login(string username, string clave)
         {
-            Usuario u = context.Usuario.Where(u => u.User == username && u.Clave == clave).First();
+            Usuario u = context.Usuario.Where(u => u.User == username && u.Clave == clave).FirstOrDefault();
             if (u is not null)
                 return u;
             return null;

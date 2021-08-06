@@ -33,7 +33,8 @@ namespace citas_medicas.net.Services
             return null;
         }
 
-        public Medico FindById(long id) => repo.ObtenerPorId(id);
+        public Medico FindById(long id) => context.Medico.Include(m => m.Pacientes).FirstOrDefault(m => m.Id == id);
+        //repo.ObtenerPorId(id);
 
 
         public string AddPaciente(long id, long idPaciente)
@@ -72,14 +73,5 @@ namespace citas_medicas.net.Services
 
         public ICollection<Medico> FindAll() => context.Medico.Include(m => m.Pacientes).ToList();
 
-
-        //TODO:
-        public bool Login(string user, string clave)
-        {
-            Medico m = context.Medico.Where(m => m.User == user && m.Clave == clave).First();
-            if (m is not null)
-                return true;
-            return false;
-        }
     }
 }

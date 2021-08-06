@@ -10,6 +10,7 @@ namespace citas_medicas.net.Services
 {
     public class PacienteService : IPacienteService
     {
+        #region contruct+Atrib
         private Context context;
         private IRepositorio<Paciente> repo;
         private IRepositorio<Medico> repoMedico;
@@ -20,6 +21,8 @@ namespace citas_medicas.net.Services
             repo = new RepositorioPaciente<Paciente>(context);
             repoMedico = new RepositorioMedico<Medico>(context);
         }
+        #endregion
+
 
         public Paciente Create(Paciente p)
         {
@@ -30,10 +33,10 @@ namespace citas_medicas.net.Services
             return null;
         }
 
-        public Paciente FindById(long id) => repo.ObtenerPorId(id);//context.Paciente.Find(id);
+        public Paciente FindById(long id) => context.Paciente.Include(p => p.Medicos).FirstOrDefault(p => p.Id == id);
+        //repo.ObtenerPorId(id);//context.Paciente.Find(id);
 
 
-        //TODO:
         public string AddMedico(long id, long idMedico)
         {
             Medico m = repoMedico.ObtenerPorId(idMedico);
@@ -54,6 +57,7 @@ namespace citas_medicas.net.Services
                 return "este medico o este paciente ya se tienen añadidos el uno al otro en su lista";
             }
 
+            #region comprobaciones
             if ((m is null) && (p is null))
                 return "ni el paciente ni el medico existen.";
             if (m is null)
@@ -61,19 +65,12 @@ namespace citas_medicas.net.Services
             if (p is null)
                 return "el paciente no existe";
             return "no entiendo nada";
+            #endregion
         }
 
         public bool DeleteById(long id) => repo.Eliminar(id);
       
 
         public IEnumerable<Paciente> FindAll() => context.Paciente.Include(p => p.Medicos).ToList();
-
-        //TODO:
-        public bool Login(string user, string clave) {
-            Paciente p = context.Paciente.Where(p => p.User == user && p.Clave == clave).First();
-            if (p is not null)
-                return true;
-            return false;
-        }
     }
 }
