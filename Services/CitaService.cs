@@ -11,7 +11,7 @@ namespace citas_medicas.net.Services
     public class CitaService:ICitaService
     {
         private Context context;
-        private IRepositorio<Cita> repo;
+        private RepositorioCita<Cita> repo;
 
         public CitaService(Context c) {
             context = c;
@@ -33,13 +33,11 @@ namespace citas_medicas.net.Services
             return null;
         }
 
-        public Cita FindById(long id) => context.Cita.Include(c => c.Medico).Include(c => c.Paciente).Include(c => c.Diagnostico).FirstOrDefault(c => c.Id == id);
-            //repo.ObtenerPorId(id);
+        public Cita FindById(long id) => repo.FindById(id);
 
         public bool DeleteById(long id) => repo.Eliminar(id);
 
-        public ICollection<Cita> FindAll() => context.Cita.Include(c => c.Medico).Include(c => c.Paciente).Include(c => c.Diagnostico).ToList();
-
+        public ICollection<Cita> FindAll() => repo.FindAll();
 
         public bool AddDiagnostico(long id, long idDiagnostico)
         {

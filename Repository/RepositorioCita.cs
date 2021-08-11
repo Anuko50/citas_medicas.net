@@ -1,4 +1,5 @@
 ﻿using citas_medicas.net.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,5 +41,10 @@ namespace citas_medicas.net.Repository
 
         }
         public T ObtenerPorId(long id) => context.Set<T>().FirstOrDefault(x => x.Id == id);
+
+        public Cita FindById(long id) => context.Cita.Include(c => c.Medico).Include(c => c.Paciente).Include(c => c.Diagnostico).FirstOrDefault(c => c.Id == id);
+
+        public ICollection<Cita> FindAll() => context.Cita.Include(c => c.Medico).Include(c => c.Paciente).Include(c => c.Diagnostico).ToList();
+
     }
 }

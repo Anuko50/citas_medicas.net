@@ -40,6 +40,16 @@ namespace citas_medicas.net.Repository
             
         }
         public T ObtenerPorId(long id) => context.Set<T>().FirstOrDefault(x => x.Id == id);
+
+        public IEnumerable<Usuario> findAll() => context.Usuario.ToList();
+
+        public Usuario login(string username, string clave) {
+            Usuario u = context.Usuario.Where(u => u.User == username && u.Clave == clave).FirstOrDefault();
+            if (u is not null)
+                return u;
+            return null;
+        }
+        
       
     }
 }

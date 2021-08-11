@@ -10,7 +10,7 @@ namespace citas_medicas.net.Services
     public class DiagnosticoService:IDiagnosticoService
     {
         private Context context;
-        private IRepositorio<Diagnostico> repo;
+        private RepositorioDiagnostico<Diagnostico> repo;
 
         public DiagnosticoService(Context c) 
         {
@@ -31,7 +31,7 @@ namespace citas_medicas.net.Services
 
         public bool DeleteById(long id) => repo.Eliminar(id);
 
-        public ICollection<Diagnostico> FindAll() => context.Diagnostico.ToList();
+        public ICollection<Diagnostico> FindAll() => repo.FindAll();
 
     }
 }

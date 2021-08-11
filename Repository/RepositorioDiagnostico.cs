@@ -40,5 +40,8 @@ namespace citas_medicas.net.Repository
 
         }
         public T ObtenerPorId(long id) => context.Set<T>().FirstOrDefault(x => x.Id == id);
+
+        public ICollection<Diagnostico> FindAll() => context.Diagnostico.ToList();
+
     }
 }

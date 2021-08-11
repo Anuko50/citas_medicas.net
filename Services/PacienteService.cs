@@ -12,7 +12,7 @@ namespace citas_medicas.net.Services
     {
         #region contruct+Atrib
         private Context context;
-        private IRepositorio<Paciente> repo;
+        private RepositorioPaciente<Paciente> repo;
         private IRepositorio<Medico> repoMedico;
 
         public PacienteService(Context c)
@@ -33,7 +33,7 @@ namespace citas_medicas.net.Services
             return null;
         }
 
-        public Paciente FindById(long id) => context.Paciente.Include(p => p.Medicos).FirstOrDefault(p => p.Id == id);
+        public Paciente FindById(long id) =>repo.FindById(id);
         //repo.ObtenerPorId(id);//context.Paciente.Find(id);
 
 
@@ -69,8 +69,8 @@ namespace citas_medicas.net.Services
         }
 
         public bool DeleteById(long id) => repo.Eliminar(id);
-      
 
-        public IEnumerable<Paciente> FindAll() => context.Paciente.Include(p => p.Medicos).ToList();
+
+        public IEnumerable<Paciente> FindAll() => repo.findAll();
     }
 }

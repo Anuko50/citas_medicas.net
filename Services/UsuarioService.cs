@@ -10,7 +10,7 @@ namespace citas_medicas.net.Services
     public class UsuarioService : IUsuarioService
     {
         private Context context;
-        private IRepositorio<Usuario> repo;
+        private RepositorioUsuario<Usuario> repo;
 
         //constructor; necesito el contexto de los datos.
         public UsuarioService(Context c)
@@ -36,23 +36,15 @@ namespace citas_medicas.net.Services
         //si el usuario existe, lo borro y retorno true
         //si no existe, retorno false
         public bool DeleteById(long id) => repo.Eliminar(id);
-        
+
 
         //Hago una función Lambda; cojo todos los usuarios que haya en el contexto de los datos.
-        public IEnumerable<Usuario> FindAll() => context.Usuario.ToList();
+        public IEnumerable<Usuario> FindAll() => repo.findAll();
 
-        public void Update( Usuario u)
-        {
-            repo.Actualizar( u);
-        }
+        public void Update( Usuario u) => repo.Actualizar( u);
+      
 
         //solo comprobar si existe.
-        public Usuario login(string username, string clave)
-        {
-            Usuario u = context.Usuario.Where(u => u.User == username && u.Clave == clave).FirstOrDefault();
-            if (u is not null)
-                return u;
-            return null;
-        }
+        public Usuario login(string username, string clave) => repo.login(username, clave);
     }
 }
