@@ -21,6 +21,7 @@ namespace citas_medicas.net
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,6 +34,19 @@ namespace citas_medicas.net
         {
             services.AddDbContext<Context>(options =>
                 options.UseSqlServer(Configuration["Data:ConnectionStrings:DefaultConnection"]));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200/",
+                                                          "https://localhost:4200/")
+                                             .AllowAnyHeader()
+                                             .AllowAnyMethod();
+                                  });
+            });
+
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -78,6 +92,13 @@ namespace citas_medicas.net
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "citasMedicas.net v1"));
             }
+
+            app.UseCors(opt =>
+            {
+                opt.WithOrigins("http://localhost:4200");
+                opt.AllowAnyMethod();
+                opt.AllowAnyHeader();
+            });
 
             app.UseHttpsRedirection();
 
