@@ -71,9 +71,9 @@ namespace citas_medicas.net.Controllers
             if (u is not null)
             {
                 if (u.GetType() == typeof(Paciente))
-                    return u.Id.ToString()+" Paciente";
+                    return u.Id.ToString();
                
-               return u.Id.ToString()+" Medico";
+               return u.Id.ToString();
                 
             }
             return "La clave o el usuario son incorrectos.";

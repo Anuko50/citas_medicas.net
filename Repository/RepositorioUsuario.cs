@@ -49,7 +49,6 @@ namespace citas_medicas.net.Repository
                 return u;
             return null;
         }
-        
       
     }
 }
