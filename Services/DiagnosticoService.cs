@@ -11,18 +11,25 @@ namespace citas_medicas.net.Services
     {
         private Context context;
         private RepositorioDiagnostico<Diagnostico> repo;
+        private RepositorioCita<Cita> repoCitas;
 
         public DiagnosticoService(Context c) 
         {
             context = c;
-            repo = new RepositorioDiagnostico<Diagnostico>(context);  
+            repo = new RepositorioDiagnostico<Diagnostico>(context);
+            repoCitas = new RepositorioCita<Cita>(context);
         }
 
         public Diagnostico Create(Diagnostico d)
         {
             if (d is not null) {
-                repo.Agregar(d);
-                return d;
+                Cita citaAsociada = repoCitas.FindById(d.IdCita);
+                if ( citaAsociada is not null) {
+                    if (citaAsociada.Diagnostico is null) {
+                        repo.Agregar(d);
+                        return d;
+                    }
+                }
             }
             return null;
         }

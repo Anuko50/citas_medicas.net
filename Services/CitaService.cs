@@ -23,10 +23,12 @@ namespace citas_medicas.net.Services
         {
             IRepositorio<Medico> repoMedico = new RepositorioMedico<Medico>(context);
             IRepositorio<Paciente> repoPaciente = new RepositorioPaciente<Paciente>(context);
+            IRepositorio<Diagnostico> repoDiagnostico = new RepositorioDiagnostico<Diagnostico>(context);
 
             if (c is not null) {
                 c.Medico = repoMedico.ObtenerPorId(idMedico);
                 c.Paciente = repoPaciente.ObtenerPorId(idPaciente);
+                //c.Diagnostico = repoDiagnostico.ObtenerPorId(idDiagnostico);
                 repo.Agregar(c);
                 return c;
             }

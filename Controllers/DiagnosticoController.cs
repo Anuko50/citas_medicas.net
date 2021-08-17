@@ -52,10 +52,15 @@ namespace citas_medicas.net.Controllers
 
         // POST api/<DiagnosticoController>
         [HttpPost]
-        public void Post([FromBody] DiagnosticoDTO dto)
+        public string Post([FromBody] DiagnosticoDTO dto)
         {
             Diagnostico d = mapper.Map<Diagnostico>(dto);
             DService.Create(d);
+            if (d is not null) {
+                return "el diagnostico se ha creado correctamente.";
+            }
+            return "El diagnostico no ha podido ser creado, es posible que se haya asociado a una cita que ya" +
+                "tiene un diagnostico o esta no existe.";
         }
 
         /*
