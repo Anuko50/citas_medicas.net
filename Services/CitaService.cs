@@ -23,8 +23,7 @@ namespace citas_medicas.net.Services
         {
             IRepositorio<Medico> repoMedico = new RepositorioMedico<Medico>(context);
             IRepositorio<Paciente> repoPaciente = new RepositorioPaciente<Paciente>(context);
-            IRepositorio<Diagnostico> repoDiagnostico = new RepositorioDiagnostico<Diagnostico>(context);
-
+           
             if (c is not null) {
                 c.Medico = repoMedico.ObtenerPorId(idMedico);
                 c.Paciente = repoPaciente.ObtenerPorId(idPaciente);
@@ -37,7 +36,13 @@ namespace citas_medicas.net.Services
 
         public Cita FindById(long id) => repo.FindById(id);
 
-        public bool DeleteById(long id) => repo.Eliminar(id);
+        public bool DeleteById(long id) {
+            IRepositorio<Diagnostico> repoDiagnostico = new RepositorioDiagnostico<Diagnostico>(context);
+            Cita c = this.FindById(id);
+            repoDiagnostico.Eliminar(c.Diagnostico.Id);
+           return  repo.Eliminar(id);
+
+        } 
 
         public ICollection<Cita> FindAll() => repo.FindAll();
 
@@ -64,6 +69,13 @@ namespace citas_medicas.net.Services
                 return true;
             }
             return false;
+        }
+
+        public void Update(long id, DateTime fecha, string motivoCita) {
+            Cita citaVieja = repo.ObtenerPorId(id);
+            citaVieja.FechaHora = fecha;
+            citaVieja.MotivoCita =motivoCita;
+            repo.Actualizar(citaVieja);
         }
 
     }

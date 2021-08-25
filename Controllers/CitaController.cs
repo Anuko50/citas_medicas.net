@@ -5,8 +5,6 @@ using citas_medicas.net.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace citas_medicas.net.Controllers
 {
@@ -49,10 +47,13 @@ namespace citas_medicas.net.Controllers
 
         // POST api/<CitaController>
         [HttpPost]
-        public void Post(CitaDTO dto, long idMedico, long idPaciente)
+        public string Post(CitaDTO dto, long idMedico, long idPaciente)
         {
             Cita c = mapper.Map<Cita>(dto);
-            CService.Create(c, idMedico, idPaciente);
+            Cita result = CService.Create(c, idMedico, idPaciente);
+            if (result is not null)
+                return "La cita se ha creado correctamente";
+            return "La cita no ha sido creada";
         }
 
         // PUT api/<CitaController>/5
@@ -63,6 +64,17 @@ namespace citas_medicas.net.Controllers
             if (CService.AddDiagnostico(idCita, idDiagnostico))
                 return "Se ha actualizado la cita y el diagnostico.";
             return "Este diagnostico ya tiene cita asociada, esta cita tiene diagnostico asociado o alguna de las id's es incorrecta.";
+        }
+
+
+        [HttpPut]
+        public string Put(CitaDTO dto)
+        {
+            //SOLO ACTUALIZO LOS ATRIBUTOS BASICOS.
+            Cita c = mapper.Map<Cita>(dto);
+            //DateTime fechaMapped = DateTime.ParseExact(fecha, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            CService.Update(c.Id, c.FechaHora, c.MotivoCita);
+            return ("La fecha introducida ha sido: "+ c.FechaHora + " y el motivo es: "+ c.MotivoCita);
         }
 
         // DELETE api/<CitaController>/5

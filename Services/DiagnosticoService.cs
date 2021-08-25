@@ -27,6 +27,8 @@ namespace citas_medicas.net.Services
                 if ( citaAsociada is not null) {
                     if (citaAsociada.Diagnostico is null) {
                         repo.Agregar(d);
+                        citaAsociada.Diagnostico = d;
+                        repoCitas.Actualizar(citaAsociada);
                         return d;
                     }
                 }

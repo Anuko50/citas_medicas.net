@@ -54,10 +54,11 @@ namespace citas_medicas.net.Controllers
 
         // POST api/<PacienteController>
         [HttpPost]
-        public void Post([FromBody] PacienteDTO dto)
+        public PacienteDTO Post([FromBody] PacienteDTO dto)
         {
             Paciente p = mapper.Map<Paciente>(dto);
-            PService.Create(p);
+            Paciente nuevo =  PService.Create(p);
+            return mapper.Map<PacienteDTO>(nuevo);
         }
 
         // PUT api/<PacienteController>/5

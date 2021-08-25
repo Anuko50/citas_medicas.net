@@ -19,5 +19,6 @@ namespace citas_medicas.net.Services
 
         //sin embargo, como he puesto en IDiagnosticoService, por logica secuencial, esto debe ser así.
         public bool AddDiagnostico(long id, long idDiagnostico);
+        public void Update(long id, DateTime fecha, string motivoCita);
     }
 }
